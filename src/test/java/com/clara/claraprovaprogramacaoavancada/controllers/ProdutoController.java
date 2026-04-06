@@ -19,26 +19,27 @@ public class ProdutoController {
     private ProdutoServices produtoServices;
 
     @GetMapping
-    public ResponseEntity<List<ProdutoModel>> findAll(){
+    public ResponseEntity<List<ProdutoModel>> findAll() {
         List<ProdutoModel> produtoLista = produtoServices.findAll();
         return ResponseEntity.ok().body(produtoLista);
     }
 
     @PostMapping
-    public ResponseEntity<ProdutoModel> postMappping (@RequestBody ProdutoModel produtoModel) {
+    public ResponseEntity<ProdutoModel> postMappping(@RequestBody ProdutoModel produtoModel) {
         ProdutoModel produto = produtoServices.criar(produtoModel);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{/id}").buildAndExpand(produtoModel.getId()).toUri();
         return ResponseEntity.ok().body(uri);
     }
 
     @GetMapping
-    public Optional<List<ProdutoModel>> findById(Long id){
+    public Optional<List<ProdutoModel>> findById(@PathVariable Long id) {
         ProdutoModel produto = produtoServices.findById(id);
         return ResponseEntity.ok().body(produto);
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteMapping (Long id){
+    public ResponseEntity<?> deleteMapping(@PathVariable Long id) {
         produtoServices.deletar(id);
+        return ResponseEntity.ok().body(null);
     }
 }
